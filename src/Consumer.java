@@ -17,8 +17,8 @@ public class Consumer extends Person{
 	}
 
 	private int id;
-	private boolean		isLoyalCustomer;
-	private double		discountRate;
+	private boolean	isLoyalCustomer;
+	private double	discountRate;
 	//the login info
 	private String emailAddress;
 	public String getEmailAddress() {
@@ -57,12 +57,14 @@ public class Consumer extends Person{
 		consumers = new LinkedList<Consumer>();
 	}
 
-	public Consumer( String _name,int _age, String emailAddress, boolean _isLoyalCustomer,double _discountRate)
-	{
-		super.setName(_name);
-		super.setAge(_age);
-		isLoyalCustomer = _isLoyalCustomer;
-		discountRate	 = _discountRate;
+	public Consumer( String firstName, String lastName,int age, String nationality, String emailAddress, String password,boolean isLoyalCustomer,double discountRate) {
+		super.setFirstName(firstName);
+		super.setLastName(lastName);
+		super.setNationality(nationality);
+		super.setAge(age);
+		this.password= password;
+		this.isLoyalCustomer = false;
+		this.discountRate= discountRate;
 		this.emailAddress=emailAddress;
 	}
 	
@@ -75,6 +77,9 @@ public class Consumer extends Person{
 	}
 	public void addConsumer(Consumer c) {
 		consumers.add(c);
+	}
+	public void remove() {
+		consumers.clear();
 	}
 	/*public static void main(String[] args) {
 		Consumer clist = new Consumer();

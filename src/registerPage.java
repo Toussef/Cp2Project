@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.*;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -20,6 +21,10 @@ import java.awt.event.MouseEvent;
 
 public class registerPage extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField firstName;
 	private JTextField lastName;
@@ -47,8 +52,10 @@ public class registerPage extends JFrame {
 	public registerPage() {
 		File dataFile = new File("logInDetails.txt");// to read or write from file
 		Consumer clist = new Consumer();
+		//clist.removeAll(); when ne need to clear the list.
+		System.out.println(clist.sequentialID());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 567, 383);
+		setBounds(100, 100, 709, 383);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -105,18 +112,65 @@ public class registerPage extends JFrame {
 		txtrPassword.setBounds(207, 188, 76, 20);
 		contentPane.add(txtrPassword);
 		
-		JButton doneButton = new JButton("All Done!");
-		doneButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Consumer newC = new Consumer();
-			}
-		});
-		doneButton.setBounds(207, 292, 89, 23);
-		contentPane.add(doneButton);
+		JCheckBox loyaltyBox = new JCheckBox("Have you used CYH before?");
+		loyaltyBox.setBounds(368, 54, 227, 23);
+		contentPane.add(loyaltyBox);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Have you used CYH before?");
-		chckbxNewCheckBox.setBounds(207, 251, 179, 23);
-		contentPane.add(chckbxNewCheckBox);
-	}
+		ArrayList<String> countries = new ArrayList<String>();
+		try {
+			File country = new File("countries.txt");
+			FileReader fr = new FileReader(country);
+			BufferedReader br = new BufferedReader(fr);
+			while(br.readLine()!=null) {
+				String c = br.readLine().trim();
+				countries.add(c);
+			}
+			br.close();
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		JComboBox nationalityBox = new JComboBox(countries.toArray());
+		nationalityBox.setBounds(207, 250, 101, 22);
+		contentPane.add(nationalityBox);
+	
+	JButton doneButton = new JButton("All Done!");
+	doneButton.addMouseListener(new MouseAdapter() {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			int age  =(Integer) ageBox.getSelectedItem();
+			String nationality = (String) nationalityBox.getSelectedItem();
+			Person newC = new Consumer(firstName.getText(),lastName.getText(),age, nationality,txtrEmail.getText(),String.valueOf(passwordField.getPassword()),false,10.0);
+			clist.addConsumer((Consumer) newC);
+			((Consumer) newC).setId(clist.sequentialID());
+			if(loyaltyBox.isSelected()) {
+				((Consumer) newC).setLoyalCustomer(true);
+			}
+			try {
+				FileWriter fw = new FileWriter(dataFile);
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write(((Consumer) newC).getId()+"\n");
+				bw.write(newC.getFirstName()+"\n");
+				bw.write(newC.getLastName()+"\n");
+				bw.write(newC.getAge()+"\n");
+				bw.write(newC.getNationality()+"\n");
+				bw.write(((Consumer) newC).getEmailAddress()+"\n");
+				bw.write(((Consumer) newC).getPassword()+"\n");
+				if(((Consumer) newC).isLoyalCustomer()==true) {
+					bw.write("true\n");
+				}else {
+					bw.write("false\n");
+				}
+				bw.close();
+			}catch (IOException e1) {
+				e1.printStackTrace();
+			} catch (InvalidPasswordException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	});
+	doneButton.setBounds(207, 312, 89, 23);
+	contentPane.add(doneButton);
+}
 }

@@ -2,22 +2,30 @@
 public class Person {
 
 
-	private String	name;
-	private int		age;
+	private String firstName;
+	private String lastName;
+	private int age;
 	private String nationality;
 	
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 	public String getNationality() {
 		return nationality;
 	}
 	public void setNationality(String nationality) {
 		this.nationality = nationality;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+	
 	public int getAge() {
 		return age;
 	}
@@ -30,10 +38,11 @@ public class Person {
 		
 	}
 
-	public Person(String _name,int _age,String nationality)
+	public Person(String firstName, String lastName,int age,String nationality)
 	{
-		name = _name;
-		age  = _age;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.age = age;
 		this.nationality=nationality;
 	}
 	
