@@ -6,15 +6,20 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
 import java.awt.Font;
+import java.util.ArrayList;
+
 import javax.swing.DropMode;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
 
 public class registerPage extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField firstName;
 	private JTextField lastName;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -50,32 +55,52 @@ public class registerPage extends JFrame {
 		txtrWelcome.setBounds(207, 11, 101, 33);
 		contentPane.add(txtrWelcome);
 		
-		JTextArea txtrFirstName = new JTextArea();
-		txtrFirstName.setText("First Name");
-		txtrFirstName.setEditable(false);
-		txtrFirstName.setBounds(207, 82, 101, 22);
-		contentPane.add(txtrFirstName);
-		
-		JTextArea txtrLastName = new JTextArea();
-		txtrLastName.setText("Last Name");
-		txtrLastName.setEditable(false);
-		txtrLastName.setBounds(207, 146, 101, 22);
-		contentPane.add(txtrLastName);
-		
 		firstName = new JTextField();
-		firstName.setBounds(207, 115, 101, 20);
+		firstName.setText("First Name");
+		firstName.setBounds(207, 55, 101, 20);
 		contentPane.add(firstName);
 		firstName.setColumns(10);
 		
 		lastName = new JTextField();
+		lastName.setText("Last Name");
 		lastName.setColumns(10);
-		lastName.setBounds(207, 179, 101, 20);
+		lastName.setBounds(207, 86, 101, 20);
 		contentPane.add(lastName);
 		
 		
-		JComboBox<String> ageBox = new JComboBox<String>();
+		ArrayList<Integer> ageAdder = new ArrayList<Integer>();
+		for(int i = 1;i<=100;i++) {
+			ageAdder.add(i);
+		}
 		
-		ageBox.setBounds(241, 210, 28, 22);
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		JComboBox ageBox = new JComboBox(ageAdder.toArray());
+		ageBox.setBounds(254, 117, 54, 22);
 		contentPane.add(ageBox);
+		
+		JTextArea txtrAge = new JTextArea();
+		txtrAge.setEditable(false);
+		txtrAge.setText("Age");
+		txtrAge.setBounds(207, 117, 31, 23);
+		contentPane.add(txtrAge);
+		
+		JTextArea txtrEmail = new JTextArea();
+		txtrEmail.setText("Email");
+		txtrEmail.setBounds(207, 151, 101, 20);
+		contentPane.add(txtrEmail);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(207, 219, 101, 20);
+		contentPane.add(passwordField);
+		
+		JTextArea txtrPassword = new JTextArea();
+		txtrPassword.setEditable(false);
+		txtrPassword.setText("Password:");
+		txtrPassword.setBounds(207, 188, 76, 20);
+		contentPane.add(txtrPassword);
+		
+		JButton doneButton = new JButton("All Done!");
+		doneButton.setBounds(207, 271, 89, 23);
+		contentPane.add(doneButton);
 	}
 }
