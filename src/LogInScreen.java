@@ -42,7 +42,7 @@ public class LogInScreen extends JFrame {
 	 * Create the frame.
 	 */
 	public LogInScreen() {
-		
+		File dataList = new File("logInDetails");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 563, 372);
 		contentPane = new JPanel();
@@ -100,6 +100,7 @@ public class LogInScreen extends JFrame {
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				
 			}
 		});

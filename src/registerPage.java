@@ -132,10 +132,12 @@ public class registerPage extends JFrame {
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		JComboBox nationalityBox = new JComboBox(countries.toArray());
 		nationalityBox.setBounds(207, 250, 101, 22);
-		contentPane.add(nationalityBox);
-	
+		contentPane.add(nationalityBox);;
+		
+		
 	JButton doneButton = new JButton("All Done!");
 	doneButton.addMouseListener(new MouseAdapter() {
+		@SuppressWarnings("deprecation")
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			int age  =(Integer) ageBox.getSelectedItem();
@@ -166,11 +168,19 @@ public class registerPage extends JFrame {
 				e1.printStackTrace();
 			} catch (InvalidPasswordException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				
 			}
+			
+			contentPane.setVisible(false);
+			LogInScreen l1 = new LogInScreen();
+			l1.setVisible(true);
 		}
 	});
 	doneButton.setBounds(207, 312, 89, 23);
 	contentPane.add(doneButton);
+	
+	JTextArea textArea = new JTextArea();
+	textArea.setBounds(485, 217, -111, 22);
+	contentPane.add(textArea);
 }
 }

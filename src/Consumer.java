@@ -78,9 +78,10 @@ public class Consumer extends Person{
 	public void addConsumer(Consumer c) {
 		consumers.add(c);
 	}
-	public void remove() {
+	public void removeAll() {
 		consumers.clear();
 	}
+	// add remove method.
 	/*public static void main(String[] args) {
 		Consumer clist = new Consumer();
 		Consumer c1 = new Consumer("Joe",14,"youssef@mmneimneh.net",true,20);
