@@ -1,6 +1,22 @@
-
+import java.util.LinkedList;
+import java.io.*;
+//import java.util.Random;
 public class Consumer extends Person{
+	private LinkedList<Consumer> consumers;
+	public LinkedList<Consumer> getConsumers() {
+		return consumers;
+	}
+	public void setConsumers(LinkedList<Consumer> consumers) {
+		this.consumers = consumers;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 
+	private int id;
 	private boolean		isLoyalCustomer;
 	private double		discountRate;
 	//the login info
@@ -38,9 +54,10 @@ public class Consumer extends Person{
 	}
 	
 	public Consumer() {
+		consumers = new LinkedList<Consumer>();
 	}
 
-	public Consumer(String _name,int _age, String emailAddress, boolean _isLoyalCustomer,double _discountRate)
+	public Consumer( String _name,int _age, String emailAddress, boolean _isLoyalCustomer,double _discountRate)
 	{
 		super.setName(_name);
 		super.setAge(_age);
@@ -53,6 +70,20 @@ public class Consumer extends Person{
 	{
 		return "";
 	}
+	public int sequentialID() {         //Generates the id for the customer
+		return consumers.size();
+	}
+	public void addConsumer(Consumer c) {
+		consumers.add(c);
+	}
+	/*public static void main(String[] args) {
+		Consumer clist = new Consumer();
+		Consumer c1 = new Consumer("Joe",14,"youssef@mmneimneh.net",true,20);
+		clist.addConsumer(c1);
+		c1.setId(clist.sequentialID());
+		System.out.println(c1.getId());
+		
+	}*/
 }
 
 

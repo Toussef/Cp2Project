@@ -1,3 +1,4 @@
+import java.io.*;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -41,6 +42,7 @@ public class LogInScreen extends JFrame {
 	 * Create the frame.
 	 */
 	public LogInScreen() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 563, 372);
 		contentPane = new JPanel();
@@ -95,6 +97,12 @@ public class LogInScreen extends JFrame {
 		contentPane.add(passwordField);
 		
 		JButton btnNewButton = new JButton("Log-in!");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
 		btnNewButton.setBounds(229, 237, 89, 23);
 		contentPane.add(btnNewButton);
 		

@@ -93,11 +93,27 @@ public class Login_Register {
 		
 		Icon logIn = new ImageIcon("loginRS.png");
 		JButton loginButton = new JButton(logIn);
-		loginButton.setBounds(96, 185, 100, 51);
+		loginButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				LogInScreen l1 = new LogInScreen();
+				l1.setVisible(true);
+				frame.hide();
+			}
+		});
+		loginButton.setBounds(98, 185, 100, 51);
 		frame.getContentPane().add(loginButton);
 		
 		Icon registerPic = new ImageIcon("registerRS.jpg");
 		JButton register = new JButton(registerPic);
+		register.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				registerPage r1 = new registerPage();
+				r1.setVisible(true);
+				frame.hide();
+			}
+		});
 		register.setBounds(338, 185, 100, 51);		
 		frame.getContentPane().add(register);
 	}

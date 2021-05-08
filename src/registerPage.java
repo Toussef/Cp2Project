@@ -1,3 +1,4 @@
+import java.io.*;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -13,6 +14,9 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class registerPage extends JFrame {
 
@@ -41,6 +45,8 @@ public class registerPage extends JFrame {
 	 * Create the frame.
 	 */
 	public registerPage() {
+		File dataFile = new File("logInDetails.txt");// to read or write from file
+		Consumer clist = new Consumer();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 567, 383);
 		contentPane = new JPanel();
@@ -100,7 +106,17 @@ public class registerPage extends JFrame {
 		contentPane.add(txtrPassword);
 		
 		JButton doneButton = new JButton("All Done!");
-		doneButton.setBounds(207, 271, 89, 23);
+		doneButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Consumer newC = new Consumer();
+			}
+		});
+		doneButton.setBounds(207, 292, 89, 23);
 		contentPane.add(doneButton);
+		
+		JCheckBox chckbxNewCheckBox = new JCheckBox("Have you used CYH before?");
+		chckbxNewCheckBox.setBounds(207, 251, 179, 23);
+		contentPane.add(chckbxNewCheckBox);
 	}
 }
