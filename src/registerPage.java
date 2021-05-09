@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
@@ -44,6 +45,7 @@ public class registerPage extends JFrame {
 				}
 			}
 		});
+		 
 	}
 
 	/**
@@ -52,7 +54,7 @@ public class registerPage extends JFrame {
 	public registerPage() {
 		File dataFile = new File("logInDetails.txt");// to read or write from file
 		Consumer clist = new Consumer();
-		//clist.removeAll(); when ne need to clear the list.
+		clist.removeAll(); //when ne need to clear the list.
 		System.out.println(clist.sequentialID());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 709, 383);
@@ -149,7 +151,7 @@ public class registerPage extends JFrame {
 				((Consumer) newC).setLoyalCustomer(true);
 			}
 			try {
-				FileWriter fw = new FileWriter(dataFile);
+				FileWriter fw = new FileWriter(dataFile,true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write(((Consumer) newC).getId()+"\n");
 				bw.write(newC.getFirstName()+"\n");
@@ -157,23 +159,33 @@ public class registerPage extends JFrame {
 				bw.write(newC.getAge()+"\n");
 				bw.write(newC.getNationality()+"\n");
 				bw.write(((Consumer) newC).getEmailAddress()+"\n");
-				bw.write(((Consumer) newC).getPassword()+"\n");
+				int x = 0;
+				while(x==0) {
+					try {
+						bw.write(((Consumer) newC).getPassword()+"\n");
+						x=1;
+					}catch(InvalidPasswordException e1) {
+						int passException = JOptionPane.showConfirmDialog(null, e1.toString() , null, JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+						x=1;
+						if (passException == JOptionPane.YES_OPTION) {
+							continue;
+					}
+				}
 				if(((Consumer) newC).isLoyalCustomer()==true) {
 					bw.write("true\n");
 				}else {
 					bw.write("false\n");
 				}
 				bw.close();
+				}
 			}catch (IOException e1) {
 				e1.printStackTrace();
-			} catch (InvalidPasswordException e1) {
-				// TODO Auto-generated catch block
-				
-			}
+			} 
 			
-			contentPane.setVisible(false);
 			LogInScreen l1 = new LogInScreen();
 			l1.setVisible(true);
+			contentPane.setVisible(false);
+			
 		}
 	});
 	doneButton.setBounds(207, 312, 89, 23);

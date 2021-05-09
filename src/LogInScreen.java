@@ -1,4 +1,7 @@
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Scanner;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -7,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -42,7 +46,39 @@ public class LogInScreen extends JFrame {
 	 * Create the frame.
 	 */
 	public LogInScreen() {
-		File dataList = new File("logInDetails");
+		File dataList = new File("logInDetails.txt");
+		Person clist = new Consumer();
+		try {
+			Scanner scan = new Scanner(dataList);
+			//FileReader fr = new FileReader(dataList);
+			@SuppressWarnings("resource")
+			//BufferedReader br = new BufferedReader(fr);
+			int idCounter=0;
+			
+			while(scan.hasNextLine()) {
+			((Consumer)clist).addConsumer(new Consumer(null, null, 12,null, null, null,false, 0 ));
+			//System.out.println(br.readLine());
+			//System.out.println(scan.nextLine());
+			((Consumer)clist).get(idCounter).setId(Integer.valueOf(scan.nextLine()));
+			((Consumer)clist).get(idCounter).setFirstName(scan.nextLine());
+			((Consumer)clist).get(idCounter).setLastName(scan.nextLine());
+			((Consumer)clist).get(idCounter).setAge(Integer.valueOf(scan.nextLine()));
+			((Consumer)clist).get(idCounter).setNationality(scan.nextLine());
+			((Consumer)clist).get(idCounter).setEmailAddress(scan.nextLine());
+			((Consumer)clist).get(idCounter).setPassword(scan.nextLine());
+			String loyalityC = scan.nextLine();
+			if(loyalityC.equals("true")) {
+				((Consumer)clist).get(idCounter).setLoyalCustomer(true);
+			}else {
+				((Consumer)clist).get(idCounter).setLoyalCustomer(false);
+			}
+			idCounter+=1;
+		
+			}
+		}catch(IOException e1) {
+			e1.printStackTrace();
+		}
+		//System.out.println(((Consumer)clist).get(0).toString()); works woohoo :D
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 563, 372);
 		contentPane = new JPanel();
@@ -98,10 +134,42 @@ public class LogInScreen extends JFrame {
 		
 		JButton btnNewButton = new JButton("Log-in!");
 		btnNewButton.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings("unlikely-arg-type")
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				File loggedIn = new File("loggedIn.txt");
+				int size = ((Consumer)clist).sequentialID();
+				String email = emailInput.getText();
+				char[] pass = passwordField.getPassword();
 				
-				
+				System.out.println(email+"\n"+pass);
+				System.out.println(((Consumer)clist).get(0).toString());
+				for(int i = 0;i<size;i++) {
+					try {
+						char[] correctPass = ((Consumer)clist).get(i).getPassword().toCharArray();
+
+						if(email.equalsIgnoreCase(((Consumer)clist).get(i).getEmailAddress())&&Arrays.equals(pass,correctPass)) {
+							FileWriter fw = new FileWriter(loggedIn);
+							BufferedWriter bw = new BufferedWriter(fw);
+							bw.write(((Consumer)clist).get(i).toString());
+							bw.close();
+							contentPane.setVisible(false);
+							mainPage m1 = new mainPage();
+							m1.setVisible(true);
+						}else {
+							throw new wrongEmailPassException();
+						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (wrongEmailPassException e1) {
+						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, e1.toString());
+					} catch (InvalidPasswordException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 			}
 		});
 		btnNewButton.setBounds(229, 237, 89, 23);

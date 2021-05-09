@@ -1,3 +1,4 @@
+import java.io.*;
 import java.awt.BorderLayout;
 import java.io.*;
 import java.awt.EventQueue;
@@ -8,11 +9,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import java.awt.Button;
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class bookingPage extends JFrame {
 
@@ -39,6 +43,31 @@ public class bookingPage extends JFrame {
 	 */
 	@SuppressWarnings("unchecked")
 	public bookingPage() {
+		Booking blist = new Booking();
+		blist.clearAll();
+		File loggedIn = new File("loggedIn.txt");
+		File bookingHistory = new File("bookings.txt");
+		Consumer currentC = new Consumer(null,null, 0, null, null, null, false, 12);
+		try {
+			Scanner scan = new Scanner(loggedIn);
+			while(true) {
+				currentC.setId(Integer.valueOf(scan.nextLine()));
+				currentC.setFirstName(scan.nextLine());
+				currentC.setLastName(scan.nextLine());
+				currentC.setAge(Integer.valueOf(scan.nextLine()));
+				currentC.setNationality(scan.nextLine());
+				currentC.setEmailAddress(scan.nextLine());
+				String loyal = scan.nextLine();
+				if (loyal=="true") {
+					currentC.setLoyalCustomer(true);
+				}else {
+					currentC.setLoyalCustomer(false);
+				}
+				break;
+			}
+		}catch(IOException e1) {
+			e1.printStackTrace();
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 676, 383);
 		contentPane = new JPanel();
@@ -48,22 +77,22 @@ public class bookingPage extends JFrame {
 		
 		JTextArea txtrLetsBookShall = new JTextArea();
 		txtrLetsBookShall.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 16));
-		txtrLetsBookShall.setText("Let's book, shall we placeholder?");
+		txtrLetsBookShall.setText("Let's book, shall we "+ currentC.getFirstName()+"?");
 		txtrLetsBookShall.setEditable(false);
 		txtrLetsBookShall.setBounds(197, 0, 287, 28);
 		contentPane.add(txtrLetsBookShall);
 		
-		JTextArea firstName = new JTextArea();
+		JTextArea firstName = new JTextArea(currentC.getFirstName());
 		firstName.setEditable(false);
 		firstName.setBounds(43, 63, 132, 28);
 		contentPane.add(firstName);
 		
-		JTextArea lastName = new JTextArea();
+		JTextArea lastName = new JTextArea(currentC.getLastName());
 		lastName.setEditable(false);
 		lastName.setBounds(255, 63, 132, 28);
 		contentPane.add(lastName);
 		
-		JTextArea ageBox = new JTextArea();
+		JTextArea ageBox = new JTextArea(String.valueOf(currentC.getAge()));
 		ageBox.setBounds(495, 63, 61, 28);
 		contentPane.add(ageBox);
 		
@@ -88,9 +117,9 @@ public class bookingPage extends JFrame {
 			e.printStackTrace();
 		}
 		@SuppressWarnings({ "rawtypes" })
-		JComboBox currentC = new JComboBox(countries.toArray());
-		currentC.setBounds(64, 172, 81, 28);
-		contentPane.add(currentC);
+		JComboBox currentCount = new JComboBox(countries.toArray());
+		currentCount.setBounds(64, 172, 81, 28);
+		contentPane.add(currentCount);
 		
 		JTextArea destinationBox = new JTextArea();
 		destinationBox.setText("Destination Country");
@@ -116,11 +145,41 @@ public class bookingPage extends JFrame {
 		membersCBox.setBounds(495, 175, 49, 22);
 		contentPane.add(membersCBox);
 		
-		JCheckBox familyChecl = new JCheckBox("Family?");
-		familyChecl.setBounds(582, 138, 74, 23);
-		contentPane.add(familyChecl);
+		JCheckBox familyCheck = new JCheckBox("Family?");
+		familyCheck.setBounds(582, 138, 74, 23);
+		contentPane.add(familyCheck);
 		
 		JButton checkoutBtn = new JButton("Checkout");
+		checkoutBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String cCoun = String.valueOf(currentCount.getSelectedItem()); 
+				String dCoun = String.valueOf(destinationC.getSelectedItem());
+				int members = (Integer)(membersCBox.getSelectedItem());
+				boolean familyDisc = true;
+				if(familyCheck.isSelected()==true) {
+					familyDisc = true;
+					currentC.setDiscountRate(0.9);
+				}else {
+					familyDisc = false;
+					currentC.setDiscountRate(1);
+				}
+				Booking b1 = new Booking(currentC, cCoun, dCoun,members , familyDisc);
+				blist.addBooking(b1);
+				
+				try {
+					FileWriter fw = new FileWriter(bookingHistory,true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					bw.write(b1.toString());
+					bw.close();
+				}catch(IOException e1) {
+					e1.printStackTrace();
+				}
+				contentPane.hide();
+				checkout c1 = new checkout();
+				c1.setVisible(true);
+			}
+		});
 		checkoutBtn.setBounds(197, 266, 89, 23);
 		contentPane.add(checkoutBtn);
 		

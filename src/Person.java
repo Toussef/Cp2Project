@@ -2,10 +2,10 @@
 public class Person {
 
 
-	private String firstName;
-	private String lastName;
-	private int age;
-	private String nationality;
+	protected String firstName;
+	protected String lastName;
+	protected int age;
+	protected String nationality;
 	
 	public String getFirstName() {
 		return firstName;

@@ -70,9 +70,9 @@ public class Consumer extends Person{
 	
 	public String toString()
 	{
-		return "";
+		return id+"\n"+getFirstName()+"\n"+getLastName()+"\n"+getAge()+"\n"+nationality+"\n"+emailAddress+"\n"+password+"\n"+isLoyalCustomer; 
 	}
-	public int sequentialID() {         //Generates the id for the customer
+	public int sequentialID() {         //Generates the id for the customer+doubles as a size check :D
 		return consumers.size();
 	}
 	public void addConsumer(Consumer c) {
@@ -80,6 +80,9 @@ public class Consumer extends Person{
 	}
 	public void removeAll() {
 		consumers.clear();
+	}
+	public Consumer get(int i) {
+		return consumers.get(i);
 	}
 	// add remove method.
 	/*public static void main(String[] args) {
